@@ -163,6 +163,9 @@ public class Main {
                         buffer = readContiguousFile(fileInput);
                     } else if (allocationType == 2) {
                         buffer = readChainedFile(fileInput);
+                    } else if (allocationType == 3) {
+                        buffer = readIndex(fileInput);
+
                     }
                     File targetFile = new File("Samples/" + copyTo);
                     OutputStream outStream;
@@ -234,28 +237,27 @@ public class Main {
         }
     }
 
-    public static byte[] readIndexed(String fileName) {
+    public static byte[] readIndex(String fileName) {
         String[] result = findFileInTable(fileName);
         int startBlock = Integer.parseInt(result[2]);
         System.out.println("Start block is " + startBlock);
         int index = 0;
-        for (int i = 0; i < blockLength; i++) {
-            byte[] block = diskObject.read(startBlock);
-            if (i == blockLength - 1) {
-                for (int e = 0; e < block.length; e++) {
-                    data[index] = block[e];
-                    index++;
-                }
+        byte[] indexBlock = diskObject.read(startBlock);
+        ArrayList<Integer> indexes = new ArrayList<>();
+        for (int i = 0; i < indexBlock.length; i++) {
+            int pointer = indexBlock[i] & 255;
+            if (pointer != 0) {
+                indexes.add(pointer);
+                System.out.println("Index is " + pointer);
             } else {
-                for (int e = 0; e < block.length - 1; e++) {
-                    data[index] = block[e];
-                    index++;
-                }
-                byte[] intPointer = new byte[1];
-                intPointer[0] = block[block.length - 1];
-                int pointer = intPointer[0] & 255;
-                startBlock = pointer;
-                System.out.println("Mpovin to " + startBlock);
+                break;
+            }
+        }
+        byte[] data = new byte[blockSize * indexes.size()];
+        for (int i : indexes) {
+            byte[] block = diskObject.read(i);
+            for (int e = 0; e < block.length; e++, index++) {
+                data[index] = block[e];
             }
         }
         return data;
@@ -288,7 +290,7 @@ public class Main {
                     data[i - 1] = (byte) ((int) openPositions.get(i));
                 }
                 for (int i = blocks; i < blockSize; i++) {
-                    data[i - 1] = (byte) ((int) 0);
+                    data[i] = (byte) ((int) 0);
                 }
                 diskObject.write(data, openPositions.get(startIndex));
                 for (int i = 1; i < blocks + 1; i++) {
@@ -302,6 +304,7 @@ public class Main {
                         }
                     }
                     diskObject.write(data, openPositions.get(startIndex));
+                    System.out.println("Index: " + openPositions.get(startIndex) + " Block is : " + new String(diskObject.read(openPositions.get(startIndex))));
                 }
 
             }
