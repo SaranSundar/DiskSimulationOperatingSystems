@@ -234,9 +234,36 @@ public class Main {
         }
     }
 
+    public static byte[] readIndexed(String fileName) {
+        String[] result = findFileInTable(fileName);
+        int startBlock = Integer.parseInt(result[2]);
+        System.out.println("Start block is " + startBlock);
+        int index = 0;
+        for (int i = 0; i < blockLength; i++) {
+            byte[] block = diskObject.read(startBlock);
+            if (i == blockLength - 1) {
+                for (int e = 0; e < block.length; e++) {
+                    data[index] = block[e];
+                    index++;
+                }
+            } else {
+                for (int e = 0; e < block.length - 1; e++) {
+                    data[index] = block[e];
+                    index++;
+                }
+                byte[] intPointer = new byte[1];
+                intPointer[0] = block[block.length - 1];
+                int pointer = intPointer[0] & 255;
+                startBlock = pointer;
+                System.out.println("Mpovin to " + startBlock);
+            }
+        }
+        return data;
+    }
+
     public static void indexedAllocation(byte[] file, String fileName) {
-        int blocks = file.length / (blockSize - 4);
-        if (file.length % (blockSize - 4) != 0) {
+        int blocks = file.length / (blockSize);
+        if (file.length % (blockSize) != 0) {
             blocks++;
         }
         byte[] bitmap = diskObject.read(1);
@@ -257,37 +284,26 @@ public class Main {
                 int startIndex = 0;
                 byte[] data = new byte[blockSize];
                 int index = 0;
-                int stop = blockSize - ((blocks - 1) * 4);
-                for (int i = 0; i < stop; i++) {
-                    if (i < file.length) {
-                        data[i] = file[i];
-                        index++;
-                    } else {
-                        data[i] = 0;
-                    }
+                for (int i = 1; i < blocks + 1; i++) {
+                    data[i - 1] = (byte) ((int) openPositions.get(i));
                 }
-                for (int i = stop; i < blockSize; i++) {
-                    byte[] intPointer = toByteArray(openPositions.get(startIndex));
-                    for (int e = 0; e < intPointer.length; e++, i++) {
-                        data[i] = intPointer[e];
-                    }
-                    i--;
-                    startIndex++;
-
+                for (int i = blocks; i < blockSize; i++) {
+                    data[i - 1] = (byte) ((int) 0);
                 }
-                int i = 0;
-                startIndex = 0;
                 diskObject.write(data, openPositions.get(startIndex));
-                startIndex++;
-                while (index < file.length) {
-                    data[i] = file[index];
-                    if (i == blockSize - 1) {
-                        diskObject.write(data, openPositions.get(startIndex));
-                        startIndex++;
-                        i = 0;
+                for (int i = 1; i < blocks + 1; i++) {
+                    startIndex++;
+                    for (int e = 0; e < blockSize; e++) {
+                        if (index < file.length) {
+                            data[e] = file[index];
+                            index++;
+                        } else {
+                            data[e] = 0;
+                        }
                     }
-                    index++;
+                    diskObject.write(data, openPositions.get(startIndex));
                 }
+
             }
         }
 
