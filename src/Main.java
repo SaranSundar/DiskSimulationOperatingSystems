@@ -386,7 +386,7 @@ public class Main {
                 for (int i = blocks; i < blockSize; i++) {
                     data[i] = (byte) ((int) 0);
                 }
-                diskObject.write(data, openPositions.get(startIndex));
+                writeToDisk(data, openPositions.get(startIndex));
                 for (int i = 1; i < blocks + 1; i++) {
                     startIndex++;
                     for (int e = 0; e < blockSize; e++) {
@@ -397,7 +397,7 @@ public class Main {
                             data[e] = 0;
                         }
                     }
-                    diskObject.write(data, openPositions.get(startIndex));
+                    writeToDisk(data, openPositions.get(startIndex));
                     System.out.println("Index: " + openPositions.get(startIndex) + " Block is : " + new String(diskObject.read(openPositions.get(startIndex))));
                 }
 
