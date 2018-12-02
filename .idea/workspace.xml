@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="00a50aa9-08a3-4a3d-8b72-c8722dc35441" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Samples/l" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Samples/wd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Samples/werty" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Samples/yui" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -20,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4267">
-              <caret line="291" column="58" selection-start-line="291" selection-start-column="58" selection-end-line="291" selection-end-column="58" />
+            <state relative-caret-position="208">
+              <caret line="65" column="72" lean-forward="true" selection-start-line="65" selection-start-column="72" selection-end-line="65" selection-end-column="72" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -51,6 +47,7 @@
       <find>readFileAllo</find>
       <find>stream</find>
       <find>file con</find>
+      <find>getSim</find>
     </findStrings>
     <replaceStrings>
       <replace>blockSize</replace>
@@ -67,8 +64,8 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="width" value="1680" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="width" value="853" />
     <option name="height" value="1050" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -77,7 +74,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -95,6 +91,7 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -151,29 +148,30 @@
       <workItem from="1543353312777" duration="7580000" />
       <workItem from="1543451107639" duration="5300000" />
       <workItem from="1543470573594" duration="17775000" />
+      <workItem from="1543702923965" duration="2959000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30655000" />
+    <option name="totallyTimeSpent" value="33614000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <frame x="0" y="0" width="1680" height="1050" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1717604" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.17305315" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" weight="0.32967034" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32908705" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3747346" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.37579617" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39915073" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32908705" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3566879" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32908705" />
@@ -197,51 +195,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Samples/hr">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Samples/tr">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Samples/ww">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Samples/y">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Samples/rt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="30" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Samples/t">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Samples/ty">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Samples/werty">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Samples/hr" />
+    <entry file="file://$PROJECT_DIR$/Samples/tr" />
+    <entry file="file://$PROJECT_DIR$/Samples/ww" />
+    <entry file="file://$PROJECT_DIR$/Samples/y" />
+    <entry file="file://$PROJECT_DIR$/Samples/rt" />
+    <entry file="file://$PROJECT_DIR$/Samples/t" />
+    <entry file="file://$PROJECT_DIR$/Samples/ty" />
+    <entry file="file://$PROJECT_DIR$/Samples/werty" />
     <entry file="file://$PROJECT_DIR$/Samples/5110.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-31" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Samples/yui">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Samples/l">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Samples/wd">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Samples/wwq">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Samples/yui" />
+    <entry file="file://$PROJECT_DIR$/Samples/l" />
+    <entry file="file://$PROJECT_DIR$/Samples/wd" />
+    <entry file="file://$PROJECT_DIR$/Samples/wwq" />
     <entry file="file://$PROJECT_DIR$/Samples/5120.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="281">
@@ -249,17 +219,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Samples/ert">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="92" lean-forward="true" selection-start-line="26" selection-start-column="92" selection-end-line="26" selection-end-column="92" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Samples/ert" />
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4267">
-          <caret line="291" column="58" selection-start-line="291" selection-start-column="58" selection-end-line="291" selection-end-column="58" />
+        <state relative-caret-position="208">
+          <caret line="65" column="72" lean-forward="true" selection-start-line="65" selection-start-column="72" selection-end-line="65" selection-end-column="72" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

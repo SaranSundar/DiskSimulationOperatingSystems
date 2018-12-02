@@ -47,7 +47,7 @@ public class Main {
             System.out.print("Enter Choice : ");
             String input = kb.nextLine();
             if (input.equals("1")) {
-
+                getSimulationFile(true);
             } else if (input.equals("2")) {
                 String fileAllocationTable = new String(diskObject.read(0));
                 System.out.println("-------- FILE ALLOCATION TABLE -------");
@@ -63,9 +63,22 @@ public class Main {
                 }
 
             } else if (input.equals("4")) {
-
+                System.out.print("Enter disk block to display 0-255: ");
+                String in = kb.nextLine();
+                try {
+                    int val = Integer.parseInt(in);
+                    if (val < 0 || val > 255) {
+                        System.out.println("Error: Enter number 0-255, please try again.");
+                    } else {
+                        String ans = new String(diskObject.read(val));
+                        System.out.println("--------- Disk Block at " + val + " --------");
+                        System.out.println(ans);
+                    }
+                } catch (Exception ignored) {
+                    System.out.println("Error: Enter number 0-255, please try again.");
+                }
             } else if (input.equals("5")) {
-                getSimulationFile();
+                getSimulationFile(false);
             } else if (input.equals("6")) {
                 String[] files = displayFilesInFolder();
                 if (files != null) {
@@ -73,12 +86,87 @@ public class Main {
                 }
 
             } else if (input.equals("7")) {
-
+                deleteFile();
             } else if (input.equals("8")) {
                 return;
             }
             System.out.println();
         }
+    }
+
+    public static void deleteFile() {
+        System.out.println("------------- FILES IN SYSTEM ------------");
+        String[] filesInSystem = readFileAllocationTable();
+        int length = 0;
+        for (String s : filesInSystem) {
+            if (s != null) {
+                if (s.contains("File")) {
+                    String[] e = s.split(" ");
+                    System.out.println(e[1]);
+                    length++;
+                }
+            }
+        }
+        if (length <= 0) {
+            System.out.println("No Files stored in System. Please try again later");
+            return;
+        }
+        System.out.print("Choose file to delete: ");
+        String fileInput = kb.nextLine().strip();
+        boolean fileFound = false;
+        String answer = "";
+        for (String f : filesInSystem) {
+            if (f != null && f.contains(fileInput)) {
+                fileFound = true;
+                answer = f;
+                break;
+            }
+        }
+        if (!fileFound) {
+            System.out.println("File not found. Please try again");
+        } else {
+            StringBuilder tableBuilder = new StringBuilder();
+            for (String s : filesInSystem) {
+                if (s != null && s.contains("File") && !s.contains(fileInput)) {
+                    tableBuilder.append(s).append(",");
+                }
+            }
+            StringBuilder table = new StringBuilder(tableBuilder.toString());
+            while (table.length() < blockSize) {
+                table.append("0");
+            }
+            writeToDisk(table.toString().getBytes(), 0);
+            deleteAllocation(answer);
+        }
+    }
+
+    public static void deleteAllocation(String file) {
+        String[] input = file.split(" ");
+        byte[] bitmap = diskObject.read(1);
+        if (allocationType == 1) {
+            int start = Integer.parseInt(input[2]);
+            int length = Integer.parseInt(input[3]);
+            for (int i = start; i < start + length; i++) {
+                bitmap[i] = 0;
+            }
+        } else if (allocationType == 2) {
+            int start = Integer.parseInt(input[2]);
+            int length = Integer.parseInt(input[3]);
+            for (int i = 0; i < length; i++) {
+                byte[] data = diskObject.read(start);
+                bitmap[start] = 0;
+                start = data[data.length - 1] & 255;
+            }
+        } else if (allocationType == 3) {
+            int start = Integer.parseInt(input[2]);
+            byte[] index = diskObject.read(start);
+            while (start != 0) {
+                bitmap[start] = 0;
+                start = index[0] & 255;
+            }
+        }
+
+        writeToDisk(bitmap, 1);
     }
 
     public static void initBitmap() {
@@ -119,7 +207,7 @@ public class Main {
         }
     }
 
-    public static void getSimulationFile() {
+    public static void getSimulationFile(boolean display) {
         System.out.println("------------- FILES IN SYSTEM ------------");
         String[] filesInSystem = readFileAllocationTable();
         int length = 0;
@@ -167,12 +255,18 @@ public class Main {
                         buffer = readIndex(fileInput);
 
                     }
-                    File targetFile = new File("Samples/" + copyTo);
-                    OutputStream outStream;
-                    outStream = new FileOutputStream(targetFile);
-                    outStream.write(buffer != null ? buffer : new byte[0]);
-                    System.out.println("Copied from " + fileInput + " to " + copyTo);
-                    outStream.close();
+                    if (!display) {
+                        File targetFile = new File("Samples/" + copyTo);
+                        OutputStream outStream;
+                        outStream = new FileOutputStream(targetFile);
+                        outStream.write(buffer != null ? buffer : new byte[0]);
+                        System.out.println("Copied from " + fileInput + " to " + copyTo);
+                        outStream.close();
+                    } else {
+                        String ans = new String(buffer != null ? buffer : new byte[0]);
+                        System.out.println("---------- File: " + fileInput + " -----------");
+                        System.out.println(ans);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -555,8 +649,8 @@ public class Main {
     }
 
     public static void writeToDisk(byte[] data, int blockNum) {
-        byte[] bitmap = diskObject.read(1);
         diskObject.write(data, blockNum);
+        byte[] bitmap = diskObject.read(1);
         bitmap[blockNum] = 1;
         diskObject.write(bitmap, 1);
     }
