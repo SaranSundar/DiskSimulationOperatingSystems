@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Main {
 
     private static Disk diskObject;
-    //19641
     private static Scanner kb;
     private static int allocationType;
     private static int blockSize = 512;
@@ -116,10 +115,14 @@ public class Main {
         boolean fileFound = false;
         String answer = "";
         for (String f : filesInSystem) {
-            if (f != null && f.contains(fileInput)) {
-                fileFound = true;
-                answer = f;
-                break;
+            if (f != null) {
+                String[] e = f.split(" ");
+                if (e.length >= 2 && e[1].equals(fileInput)) {
+                    fileFound = true;
+                    answer = f;
+                    break;
+                }
+
             }
         }
         if (!fileFound) {
@@ -160,9 +163,11 @@ public class Main {
         } else if (allocationType == 3) {
             int start = Integer.parseInt(input[2]);
             byte[] index = diskObject.read(start);
+            int i = -1;
             while (start != 0) {
+                i++;
                 bitmap[start] = 0;
-                start = index[0] & 255;
+                start = index[i] & 255;
             }
         }
 
@@ -200,7 +205,7 @@ public class Main {
             } else if (copyTo.length() > 8) {
                 System.out.println("Filename length can be 8 characters at most, please try again.");
             } else {
-                File file = new File("Samples/" + fileInput);
+                File file = new File("./" + fileInput);
                 moveFiletoDisk(file, copyTo);
                 System.out.println("Copied from " + fileInput + " to " + copyTo);
             }
@@ -228,9 +233,12 @@ public class Main {
         String fileInput = kb.nextLine().strip();
         boolean fileFound = false;
         for (String f : filesInSystem) {
-            if (f != null && f.contains(fileInput)) {
-                fileFound = true;
-                break;
+            if (f != null) {
+                String[] e = f.split(" ");
+                if (e.length >= 2 && e[1].equals(fileInput)) {
+                    fileFound = true;
+                    break;
+                }
             }
         }
         if (!fileFound) {
@@ -256,7 +264,7 @@ public class Main {
 
                     }
                     if (!display) {
-                        File targetFile = new File("Samples/" + copyTo);
+                        File targetFile = new File("./" + copyTo);
                         OutputStream outStream;
                         outStream = new FileOutputStream(targetFile);
                         outStream.write(buffer != null ? buffer : new byte[0]);
@@ -287,7 +295,7 @@ public class Main {
     }
 
     public static boolean fileExistsInSystem(String fileName) {
-        File folder = new File("Samples");
+        File folder = new File("./");
         String[] files = folder.list();
         if (files != null) {
             for (String s : files) {
@@ -334,7 +342,7 @@ public class Main {
     public static byte[] readIndex(String fileName) {
         String[] result = findFileInTable(fileName);
         int startBlock = Integer.parseInt(result[2]);
-        System.out.println("Start block is " + startBlock);
+        //.println("Start block is " + startBlock);
         int index = 0;
         byte[] indexBlock = diskObject.read(startBlock);
         ArrayList<Integer> indexes = new ArrayList<>();
@@ -342,7 +350,7 @@ public class Main {
             int pointer = indexBlock[i] & 255;
             if (pointer != 0) {
                 indexes.add(pointer);
-                System.out.println("Index is " + pointer);
+             //   System.out.println("Index is " + pointer);
             } else {
                 break;
             }
@@ -455,7 +463,7 @@ public class Main {
                             //System.out.println("Start index " + startIndex + " byte " + intPointer[0] + " int " + (intPointer[0] & 255));
                         }
                         writeToDisk(data, startIndex);
-                        System.out.println("last line inside : " + new String(diskObject.read(startIndex)));
+                        //System.out.println("last line inside : " + new String(diskObject.read(startIndex)));
                         i = 0;
                     }
                     data[i] = file[index];
@@ -470,7 +478,7 @@ public class Main {
                         i++;
                     }
                     writeToDisk(data, startIndex);
-                    System.out.println("last line outside: " + new String(diskObject.read(startIndex)));
+                    //System.out.println("last line outside: " + new String(diskObject.read(startIndex)));
                 }
             }
         }
@@ -515,7 +523,8 @@ public class Main {
         String ans = "";
         for (String s : fAT) {
             if (s != null) {
-                if (s.contains(fileName)) {
+                String[] e = s.split(" ");
+                if (e.length >= 2 && e[1].equals(fileName)) {
                     ans = s;
                     break;
                 }
@@ -529,7 +538,7 @@ public class Main {
         String[] result = findFileInTable(fileName);
         int startBlock = Integer.parseInt(result[2]);
         int blockLength = Integer.parseInt(result[3]);
-        System.out.println("BLock Length is " + blockLength);
+        //System.out.println("BLock Length is " + blockLength);
         byte[] data = new byte[blockSize * blockLength];
         int index = 0;
         for (int i = 0; i < blockLength; i++) {
@@ -548,7 +557,7 @@ public class Main {
                 intPointer[0] = block[block.length - 1];
                 int pointer = intPointer[0] & 255;
                 startBlock = pointer;
-                System.out.println("Mpovin to " + startBlock);
+                //System.out.println("Mpovin to " + startBlock);
             }
         }
         return data;
@@ -578,7 +587,7 @@ public class Main {
             System.out.println("Error: No room to store file - Allocation Type: Contiguous");
         } else {
             if (startIndex < 2) {
-                System.out.println("Error: Start Index is " + startIndex);
+                //System.out.println("Error: Start Index is " + startIndex);
                 return;
             }
             if (addToFileAllocationTable(fileName, startIndex, "" + blocks)) {
@@ -656,7 +665,7 @@ public class Main {
     }
 
     public static String[] displayFilesInFolder() {
-        File folder = new File("Samples");
+        File folder = new File("./");
 
         String[] files = folder.list();
 
@@ -666,7 +675,7 @@ public class Main {
                 System.out.println(file);
             }
         } else {
-            System.out.println("There are no files in Samples Folder");
+            System.out.println("There are no files in Folder");
         }
         return files;
     }
